@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DogOS</title>
+<style>
+:root{--cyan:#72e5f4;--glass:#071923c9;--line:#ffffff30}*{box-sizing:border-box}
+body{margin:0;color:#f5fbff;font:15px system-ui,Segoe UI,sans-serif;min-height:100vh;background:#07131c url('https://i.ytimg.com/vi/o7rYtbAYDWo/maxresdefault.jpg') center/cover fixed no-repeat}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(110deg,#04111acc,#04111a55 65%,#04111aaa);z-index:-1}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 25px}.logo{font-weight:900;font-size:21px;letter-spacing:2px}.logo span{color:var(--cyan)}#clock,.glass{background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(18px);border-radius:18px;padding:12px 17px}
+main{padding:7vh 5vw 110px}.welcome h1{font-size:clamp(38px,7vw,68px);margin:0;letter-spacing:-3px}.welcome p{color:#d5e9ee;margin:5px 0 25px}
+form{display:flex;gap:9px;width:min(560px,100%);margin-bottom:30px}input{flex:1;min-width:0;padding:14px 16px;border-radius:13px;border:1px solid var(--line);background:#061923d9;color:white;font:inherit;outline:none}button{cursor:pointer;border:1px solid var(--line);background:#102c39e8;color:white;padding:12px 16px;border-radius:13px;font-weight:700}button:hover,.app:hover{border-color:var(--cyan);transform:translateY(-2px)}
+h2{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#d4f5f8}.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,135px));gap:13px}.app{min-height:112px;display:grid;place-content:center;justify-items:center;gap:9px;background:var(--glass);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(18px);cursor:pointer;transition:.15s}.app b{font-size:13px}.emoji{font-size:30px}
+.dock{position:fixed;bottom:17px;left:50%;transform:translateX(-50%);display:flex;gap:7px;padding:9px;background:#06131dcc;border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(20px)}.dock button{font-size:21px;background:transparent;border:0;padding:8px 12px}
+.panel{display:none;position:fixed;z-index:4;top:12%;left:50%;transform:translateX(-50%);width:min(760px,92vw);height:min(560px,76vh);background:#071923f5;border:1px solid var(--line);border-radius:18px;box-shadow:0 25px 90px #000b;overflow:hidden}.bar{height:50px;padding:10px 15px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);font-weight:800}.inside{padding:18px;height:calc(100% - 50px);overflow:auto}.close{background:#a94152}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.card{background:#ffffff0d;border:1px solid var(--line);border-radius:14px;padding:15px}.card p,.hint{color:#bcd1d8;font-size:13px}.card button{width:100%}textarea{width:100%;height:300px;background:#0b202d;color:white;border:1px solid var(--line);border-radius:12px;padding:14px;font:inherit}
+@media(max-width:540px){main{padding:5vh 18px 100px}.apps{grid-template-columns:repeat(2,minmax(105px,1fr))}.app{min-height:96px}.dock{gap:1px}.dock button{padding:8px}}
+</style></head>
+<body>
+<header><div class="logo">🐾 DOG<span>OS</span></div><div id="clock">--:--</div></header>
+<main><section class="welcome"><h1>Welcome back.</h1><p>Your little corner of the internet.</p></section>
+<form id="search"><input id="q" placeholder="Search the web…" autocomplete="off"><button>Search ↗</button></form>
+<h2>Your apps</h2><section class="apps">
+<div class="app" onclick="show('games')"><span class="emoji">🎮</span><b>Games</b></div>
+<div class="app" onclick="show('browser')"><span class="emoji">🌐</span><b>Browser</b></div>
+<div class="app" onclick="show('notes')"><span class="emoji">📝</span><b>Notes</b></div>
+<div class="app" onclick="window.open('https://fnaf1.io/','_blank','noopener')"><span class="emoji">🐻</span><b>FNAF</b></div>
+<div class="app" onclick="show('about')"><span class="emoji">🐶</span><b>About DogOS</b></div>
+</section></main>
+<nav class="dock"><button onclick="show('games')">🎮</button><button onclick="show('browser')">🌐</button><button onclick="show('notes')">📝</button><button onclick="window.open('https://fnaf1.io/','_blank','noopener')">🐻</button></nav>
+<section class="panel" id="games"><div class="bar">🎮 Game Center <button class="close" onclick="hide()">✕</button></div><div class="inside"><div class="cards">
+<div class="card"><h3>🐍 Snake</h3><p>Classic snake game.</p><button onclick="snake()">Play</button></div>
+<div class="card"><h3>⭕ Tic-Tac-Toe</h3><p>Play a quick round.</p><button onclick="ttt()">Play</button></div>
+<div class="card"><h3>🐻 Five Nights at Freddy's</h3><p>Open FNAF in a new tab.</p><button onclick="window.open('https://fnaf1.io/','_blank','noopener')">Open FNAF</button></div>
+</div><div id="gamearea"></div></div></section>
+<section class="panel" id="browser"><div class="bar">🌐 Web Search <button class="close" onclick="hide()">✕</button></div><div class="inside"><p>Search the web or enter a website address.</p><form id="goform"><input id="addr" placeholder="Website or search…"><button>Go ↗</button></form><p class="hint">DogOS is a web homepage and does not bypass network restrictions.</p></div></section>
+<section class="panel" id="notes"><div class="bar">📝 Notes <button class="close" onclick="hide()">✕</button></div><div class="inside"><textarea placeholder="Write your notes here…"></textarea></div></section>
+<section class="panel" id="about"><div class="bar">🐶 About DogOS <button class="close" onclick="hide()">✕</button></div><div class="inside"><h2>DogOS Web Desktop</h2><p>A playful dog-at-the-wheel themed web desktop.</p><p class="hint">Built with HTML, CSS and JavaScript. No installation required.</p></div></section>
+<script>
+function clock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}clock();setInterval(clock,1000);
+function show(id){hide();document.getElementById(id).style.display='block'}function hide(){document.querySelectorAll('.panel').forEach(p=>p.style.display='none')}
+function openSearch(s){s=s.trim();if(!s)return;let u=/^https?:\/\//i.test(s)?s:(s.includes('.')&&!s.includes(' ')?'https://'+s:'https://www.google.com/search?q='+encodeURIComponent(s));window.open(u,'_blank','noopener')}
+document.getElementById('search').onsubmit=e=>{e.preventDefault();openSearch(document.getElementById('q').value)};
+document.getElementById('goform').onsubmit=e=>{e.preventDefault();openSearch(document.getElementById('addr').value)};
+function snake(){let a=document.getElementById('gamearea');a.innerHTML='<h3>Snake</h3><p class="hint">Use arrow keys. Press Start to play.</p><canvas id="cv" width="480" height="300" style="max-width:100%;background:#06131c;border-radius:12px"></canvas><button onclick="runSnake()">Start / Restart</button>'}
+let timer;function runSnake(){clearInterval(timer);let c=document.getElementById('cv'),x=c.getContext('2d'),s=[{x:10,y:10}],d={x:1,y:0},f={x:20,y:10};document.onkeydown=e=>{if(e.key==='ArrowUp'&&d.y!==1)d={x:0,y:-1};if(e.key==='ArrowDown'&&d.y!==-1)d={x:0,y:1};if(e.key==='ArrowLeft'&&d.x!==1)d={x:-1,y:0};if(e.key==='ArrowRight'&&d.x!==-1)d={x:1,y:0}};timer=setInterval(()=>{let h={x:s[0].x+d.x,y:s[0].y+d.y};if(h.x<0||h.y<0||h.x>=32||h.y>=20||s.some(p=>p.x===h.x&&p.y===h.y)){clearInterval(timer);x.fillStyle='white';x.font='20px sans-serif';x.fillText('Game over — restart!',130,150);return}s.unshift(h);if(h.x===f.x&&h.y===f.y)f={x:Math.random()*32|0,y:Math.random()*20|0};else s.pop();x.fillStyle='#06131c';x.fillRect(0,0,480,300);x.fillStyle='#72e5f4';s.forEach(p=>x.fillRect(p.x*15,p.y*15,13,13));x.fillStyle='#ffc86b';x.fillRect(f.x*15,f.y*15,13,13)},115)}
+function ttt(){let b=Array(9).fill(''),t='X',a=document.getElementById('gamearea');a.innerHTML='<h3>Tic-Tac-Toe</h3><div id="board" style="display:grid;grid-template-columns:repeat(3,70px);gap:6px"></div><p id="msg">X goes first</p><button onclick="ttt()">Reset</button>';let board=document.getElementById('board');function win(){for(let z of [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]])if(b[z[0]]&&b[z[0]]===b[z[1]]&&b[z[1]]===b[z[2]])return b[z[0]]+' wins!';return ''}function draw(){board.innerHTML='';b.forEach((v,i)=>{let q=document.createElement('button');q.style.height='70px';q.style.fontSize='25px';q.textContent=v;q.onclick=()=>{if(v||win()||b.every(Boolean))return;b[i]=t;t=t==='X'?'O':'X';draw();document.getElementById('msg').textContent=win()||(b.every(Boolean)?'Draw':t+' goes next')};board.append(q)})}draw()}
+</script></body></html>
